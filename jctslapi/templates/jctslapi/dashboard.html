@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dashboard">
+
+    <title>JCTSLOnline Admin Dashboard</title>
+{% load staticfiles %}
+
+    <link href="{% static 'assets/css/bootstrap.css' %}" rel="stylesheet">
+
+    <link href="{% static 'assets/font-awesome/css/font-awesome.css' %}" rel="stylesheet" />
+
+
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/style-responsive.css' %}" rel="stylesheet">
+
+
+  </head>
+
+  <body>
+
+  <section id="container" >
+
+      <header class="header black-bg">
+              <div class="sidebar-toggle-box">
+                  <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+              </div>
+
+            <a href="{% url 'admindashboard' %}" class="logo"><b>JCTSLOnline Admin</b></a>
+
+            <div class="nav notify-row" id="top_menu">
+
+                </ul>
+
+            </div>
+            <div class="top-menu">
+            	<ul class="nav pull-right top-menu">
+                    <li><a class="logout" href="{% url 'adminlogout' %}">Logout</a></li>
+            	</ul>
+            </div>
+        </header>
+
+      <aside>
+          <div id="sidebar"  class="nav-collapse ">
+
+              <ul class="sidebar-menu" id="nav-accordion">
+
+
+
+                  <li class="mt">
+                      <a href="{% url 'admindashboard' %}" class="active">
+                          <i class="fa fa-dashboard"></i>
+                          <span>Dashboard</span>
+                      </a>
+                  </li>
+                  <li class="mt">
+                      <a href="{% url 'conductorslist' %}" >
+                          <i class="fa fa-dashboard"></i>
+                          <span>Conductors</span>
+                      </a>
+                  </li>
+                  <li class="mt">
+                      <a href="{% url 'adminlogin' %}" >
+                          <i class="fa fa-dashboard"></i>
+                          <span>Change Password</span>
+                      </a>
+                  </li>
+                  <li class="mt">
+                      <a href="{% url 'adminlogin' %}" >
+                          <i class="fa fa-dashboard"></i>
+                          <span>Announcement</span>
+                      </a>
+                  </li>
+
+
+              </ul>
+
+          </div>
+      </aside>
+
+      <section id="main-content">
+          <section class="wrapper site-min-height">
+              <br>
+              <br>
+                <ul>
+                    <input type="text" id="search_transactions" onkeyup="searchTransaction()" placeholder="Search for busnumber.." title="Type in a name">
+                    <table class="table" id="fareinfo">
+                        <thead>
+                            <tr>
+                                <th>Bus Name</th>
+                                <th>Bus Number</th>
+                                <th>Conductor</th>
+                                <th>Total Amount</th>
+                                <th>Collect Fare</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tr in transactions %}
+                            <tr>
+                                <td>{{ tr.busnumber }}</td>
+                                <td>{{ tr.busname }}</td>
+                                <td>{{ tr.cusername }}</td>
+                                <td>{{ tr.fare }}</td>
+                                <td><input type="checkbox" name="chkbox_collect" value= "{{ tr.busnumber  }}"></td>
+                            </tr>
+                             <li></li>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <button>Collect Fare</button>
+                </ul>
+		</section><! --/wrapper -->
+      </section>
+      <footer class="site-footer">
+          <div class="text-center">
+             JCTSLOnline
+              <a href="blank.html#" class="go-top">
+                  <i class="fa fa-angle-up"></i>
+              </a>
+          </div>
+      </footer>
+
+  </section>
+
+
+    <script src="{% static 'assets/js/jquery.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery-ui-1.9.2.custom.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.ui.touch-punch.min.js' %}"></script>
+    <script class="include" type="text/javascript" src="{% static 'assets/js/jquery.dcjqaccordion.2.7.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.scrollTo.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.nicescroll.js" type="text/javascript' %}"></script>
+
+
+
+    <script src="{% static 'assets/js/common-scripts.js' %}"></script>
+
+
+
+  <script>
+
+      $(function(){
+          $('select.styled').customSelect();
+      });
+
+  </script>
+  <script>
+    function searchTransaction() {
+      var input, filter, table, tr, td, i;
+      input = document.getElementById("search_transactions");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("fareinfo");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+</script>
+
+  </body>
+</html>
